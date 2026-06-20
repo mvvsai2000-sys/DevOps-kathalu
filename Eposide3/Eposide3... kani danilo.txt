@@ -1,0 +1,51 @@
+File create chesaru... kani danilo em undo ela telustundi?
+ 
+Anaganaga...
+ 
+Mana DevOps Engineer Linux nerchukuntunnadu.
+ 
+Oka roju tana manager message chesadu...
+ 
+"Log file check chesi issue cheppu."
+ 
+Mana hero confidence tho file open cheyyadaniki try chesadu.
+ 
+Kani problem enti ante...
+ 
+File lo thousands of lines unnayi! 😳
+ 
+Appude ataniki Instagram gurthochindi.
+ 
+Instagram lo post open chesthe motham content kanipistundi kada?
+ 
+Alage Linux lo cat command.
+ 
+cat app.txt
+ 
+Kani file chala pedda ga undi.
+ 
+"Naaku starting lo em undo chalu" anukunnadu.
+ 
+Appudu head command use chesadu.
+ 
+head app.txt
+ 
+"Last lo error emaina unda?" ani chusadu.
+ 
+Appudu tail command use chesadu.
+ 
+tail app.txt
+ 
+Aha! Ippudu issue ekkada undo ardham ayyindi.
+ 
+Aa roju mana hero 3 important commands nerchukunnadu.
+ 
+🐱 cat → Motham content
+ 
+⬆️ head → Starting lines
+ 
+⬇️ tail → Last lines
+ 
+Mari DevOps Engineers production logs ni live ga ela monitor chestaro telusa?
+ 
+Adhe next episode lo chuddam... 🚀 It's good I think

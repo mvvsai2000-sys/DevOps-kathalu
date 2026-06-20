@@ -1,0 +1,123 @@
+# DevOps Kathalu — Episode 13 🔥
+
+## “Server ki internet connect avvatled... Problem ekkada?” 🌐😳
+
+━━━━━━━━━━━━━━━
+
+Phone lo internet slow ayithe...
+
+Manam immediate ga em chestham? 👀
+
+WiFi OFF/ON 🔄
+Mobile data check 📶
+Signal undho ledo chustham 😳
+
+Alage Linux lo kuda...
+
+Server connectivity issue exact ga ekkada undo easy ga kanukkovachu! 🔥
+
+━━━━━━━━━━━━━━━
+
+## Anaganaga...
+
+Morning mana hero production deployment check chestunnadu. 😎☕
+
+Sudden ga users complaints start ayyayi... 🚨
+
+⚠️ Payment Failed
+⚠️ API Timeout
+⚠️ Website partially down
+
+“Ayyo...! 😳
+
+Application run avthundi...
+
+Server kuda ON lone undi...
+
+Mari external APIs enduku connect avvatledu?” 🤯🔥
+
+Mana hero tension lo monitoring dashboard open chesadu. 👀
+
+Everything normal. 😵
+
+Appude ataniki phone gurthochindi. 💡
+
+“Phone lo internet problem vachinappudu...
+
+First connectivity test chestham kada?
+
+Alage Linux lo kuda network check cheyyachu!” 😎🔥
+
+Ventane command run chesadu...
+
+```bash id="v4n8kp"
+ping google.com
+```
+
+Boom! ⚡
+
+Screen meeda replies ravatledu... 👀
+
+```bash id="h7x2md"
+Request timeout...
+Request timeout...
+```
+
+“Ahaaa! 😳
+
+Server internet ki connect avvatledu!” 🔥
+
+Hero inka deep ga investigate chesadu... 👀
+
+```bash id="r2f9qw"
+ip addr
+```
+
+Shock! 😵
+
+eth0 interface DOWN status lo undi. ⚠️
+
+“Ayyo!
+
+Network adapter inactive ayyinda?” 🤯🔥
+
+Ventane fix cheyyadaniki command run chesadu... 🚀
+
+```bash id="m5t1zc"
+sudo ifconfig eth0 up
+```
+
+Konni seconds tarvata... 👀
+
+```bash id="p8k4vn"
+64 bytes from google.com
+```
+
+✅ Internet back
+✅ APIs responding
+✅ Payments successful 😎🏆
+
+Mana hero relief feel ayyadu. ☕🔥
+
+“Finally! Network issue solve ayyindi!” 🚀
+
+━━━━━━━━━━━━━━━
+
+🔍 `ping`
+→ Connectivity test cheyyadaniki
+
+🌐 `ip addr`
+→ Network interfaces status choodataniki
+
+⚡ `ifconfig eth0 up`
+→ Network interface activate cheyyadaniki
+
+━━━━━━━━━━━━━━━
+
+Kani imagine cheyyi... 😳
+
+Application developer laptop lo work avthundi...
+
+Kani server lo crash avthundi! 👀🔥
+
+Adhe next episode lo chuddam... 🚀

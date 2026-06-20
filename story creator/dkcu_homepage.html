@@ -1,0 +1,689 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .dkcu-root {
+    background: #05070f;
+    color: #e8eaf6;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* STAR FIELD */
+  .stars-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+  .hero-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #00e5ff;
+    margin-bottom: 18px;
+    opacity: 0.8;
+  }
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 6vw, 52px);
+    font-weight: 900;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #00e5ff 0%, #7c4dff 50%, #ff4081 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+  .hero-sub {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(12px, 2.5vw, 18px);
+    font-weight: 700;
+    color: #90caf9;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+  .hero-desc {
+    font-size: 14px;
+    color: #b0bec5;
+    max-width: 480px;
+    margin: 0 auto 32px;
+    line-height: 1.7;
+  }
+  .cta-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #7c4dff, #00e5ff);
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform: scale(1.04); box-shadow: 0 0 20px rgba(124,77,255,0.5); }
+  .btn-secondary {
+    background: transparent;
+    color: #00e5ff;
+    border: 1px solid rgba(0,229,255,0.4);
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { background: rgba(0,229,255,0.08); }
+
+  /* FLOATING CONTAINERS */
+  .floating-containers {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+  .float-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 11px;
+    color: #00e5ff;
+    font-family: 'Inter', monospace;
+    animation: floatBox 4s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
+  .float-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #00e5ff, transparent);
+    opacity: 0.6;
+  }
+  .float-box:nth-child(2) { animation-delay: 0.7s; border-color: rgba(124,77,255,0.3); color: #ce93d8; }
+  .float-box:nth-child(3) { animation-delay: 1.4s; border-color: rgba(255,64,129,0.3); color: #f48fb1; }
+  .float-box:nth-child(4) { animation-delay: 2.1s; border-color: rgba(0,230,118,0.3); color: #a5d6a7; }
+  @keyframes floatBox {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.3), rgba(124,77,255,0.3), transparent);
+    margin: 0 20px 40px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* SEASON TRAIL */
+  .season-label {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #546e7a;
+    margin-bottom: 16px;
+    position: relative; z-index: 2;
+  }
+  .season-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 0 16px;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .season-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 14px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .season-card:hover {
+    border-color: rgba(0,229,255,0.3);
+    background: rgba(0,229,255,0.05);
+    transform: translateY(-2px);
+  }
+  .season-card .s-num {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.12);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .season-card .s-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #90caf9;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .season-card .s-topics {
+    font-size: 10px;
+    color: #546e7a;
+    line-height: 1.5;
+  }
+  .season-card.s-active { border-color: rgba(124,77,255,0.5); background: rgba(124,77,255,0.08); }
+  .season-card.s-active .s-num { color: rgba(124,77,255,0.4); }
+
+  /* CHARACTERS */
+  .chars-label {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #546e7a;
+    margin-bottom: 16px;
+    position: relative; z-index: 2;
+  }
+  .chars-scroll {
+    display: flex;
+    gap: 10px;
+    padding: 0 16px 8px;
+    overflow-x: auto;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+    scrollbar-width: none;
+  }
+  .chars-scroll::-webkit-scrollbar { display: none; }
+  .char-card {
+    min-width: 120px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    border: 1px solid rgba(255,255,255,0.06);
+    flex-shrink: 0;
+  }
+  .char-card:hover { transform: translateY(-4px); }
+  .char-emoji { font-size: 32px; margin-bottom: 8px; display: block; }
+  .char-name { font-size: 13px; font-weight: 600; color: #e8eaf6; margin-bottom: 3px; }
+  .char-concept { font-size: 10px; color: #546e7a; }
+  .char-card.c-hero { border-color: rgba(0,229,255,0.25); background: rgba(0,229,255,0.04); }
+  .char-card.c-villain { border-color: rgba(255,64,129,0.25); background: rgba(255,64,129,0.04); }
+  .char-card.c-wise { border-color: rgba(0,230,118,0.25); background: rgba(0,230,118,0.04); }
+  .char-card.c-builder { border-color: rgba(124,77,255,0.25); background: rgba(124,77,255,0.04); }
+
+  /* EPISODE PREVIEW */
+  .ep-label {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #546e7a;
+    margin-bottom: 16px;
+    position: relative; z-index: 2;
+  }
+  .ep-card {
+    margin: 0 16px 12px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 18px 16px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .ep-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    border-radius: 3px 0 0 3px;
+  }
+  .ep-card.ep-s1::before { background: #00e5ff; }
+  .ep-card.ep-s2::before { background: #7c4dff; }
+  .ep-card.ep-s3::before { background: #00e676; }
+  .ep-card:hover { border-color: rgba(0,229,255,0.2); background: rgba(0,229,255,0.03); }
+  .ep-meta { font-size: 10px; color: #546e7a; margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
+  .ep-title { font-size: 14px; font-weight: 600; color: #e8eaf6; margin-bottom: 6px; }
+  .ep-hook { font-size: 12px; color: #78909c; line-height: 1.5; }
+  .ep-tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .ep-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: rgba(0,229,255,0.08);
+    color: #00e5ff;
+    border: 1px solid rgba(0,229,255,0.15);
+  }
+
+  /* COMMAND FLASH */
+  .cmd-section {
+    margin: 0 16px 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .cmd-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #546e7a; text-align: center; margin-bottom: 16px; }
+  .cmd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cmd-item {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(0,229,255,0.1);
+    border-radius: 10px;
+    padding: 12px;
+    font-family: 'Inter', monospace;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .cmd-item:hover { border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.05); }
+  .cmd-who { font-size: 10px; color: #7c4dff; margin-bottom: 4px; font-weight: 600; }
+  .cmd-code { font-size: 11px; color: #00e5ff; }
+  .cmd-meaning { font-size: 10px; color: #546e7a; margin-top: 3px; }
+
+  /* FOOTER TAGLINE */
+  .tagline {
+    text-align: center;
+    padding: 24px 20px 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .tagline-main {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    color: rgba(255,255,255,0.15);
+    margin-bottom: 6px;
+  }
+  .tagline-sub { font-size: 11px; color: #37474f; }
+
+  /* CRASHMORA SHADOW */
+  .crashmora-bg {
+    position: fixed;
+    bottom: -80px;
+    right: -40px;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(ellipse, rgba(255,23,68,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    animation: pulseGlow 5s ease-in-out infinite;
+  }
+  @keyframes pulseGlow {
+    0%,100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.15); }
+  }
+
+  /* POPUP */
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .popup-overlay.active { display: flex; }
+  .popup-box {
+    background: #0d1117;
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 20px;
+    padding: 28px 24px;
+    max-width: 440px;
+    width: 100%;
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .popup-close {
+    position: absolute;
+    top: 14px; right: 16px;
+    background: none; border: none;
+    color: #546e7a; font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+  }
+  .popup-emoji { font-size: 48px; margin-bottom: 12px; display: block; }
+  .popup-name { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; color: #e8eaf6; margin-bottom: 4px; }
+  .popup-concept { font-size: 12px; color: #00e5ff; margin-bottom: 16px; letter-spacing: 1px; }
+  .popup-desc { font-size: 13px; color: #90a4ae; line-height: 1.7; margin-bottom: 16px; }
+  .popup-cmds { background: rgba(0,0,0,0.4); border-radius: 10px; padding: 12px; margin-bottom: 16px; }
+  .popup-cmd { font-family: 'Inter', monospace; font-size: 12px; color: #00e5ff; margin-bottom: 4px; }
+  .popup-power { font-size: 12px; font-weight: 600; color: #ce93d8; }
+  .ask-claude-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #7c4dff, #00e5ff);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+</style>
+
+<div class="dkcu-root" id="dkcu">
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Docker Kathalu Cinematic Universe — an animated storytelling universe that teaches Docker concepts through fantasy characters and episodes</h2>
+  <canvas class="stars-canvas" id="stars"></canvas>
+  <div class="crashmora-bg"></div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">🐳 Dockara Vanam presents</p>
+    <h1 class="hero-title">Docker Kathalu</h1>
+    <p class="hero-sub">Cinematic Universe</p>
+    <p class="hero-desc">Docker ante boring documentation kaadu — idi oka cinematic universe. Fantasy creatures, dark monsters, emotional stories... subconsciously Docker master avvutaru.</p>
+    <div class="cta-row">
+      <button class="btn-primary" onclick="sendPrompt('Generate Episode 1 of Docker Kathalu: the origin story where Docku first enters Dockara Vanam and learns what a container is')">▶ Start Adventure</button>
+      <button class="btn-secondary" onclick="sendPrompt('Tell me about all the characters in Docker Kathalu Cinematic Universe')">Meet the Cast</button>
+    </div>
+    <div class="floating-containers">
+      <div class="float-box">docker run –d nginx</div>
+      <div class="float-box">docker build –t app .</div>
+      <div class="float-box">docker ps –a</div>
+      <div class="float-box">docker compose up</div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- SEASONS -->
+  <p class="season-label">📚 The Learning Journey</p>
+  <div class="season-row">
+    <div class="season-card s-active" onclick="sendPrompt('Generate Season 1 overview for Docker Kathalu: What is Docker, Containers, Images and the Docker lifecycle through the Dockara Vanam universe')">
+      <div class="s-num">S1</div>
+      <div class="s-title">Origins</div>
+      <div class="s-topics">What is Docker · Containers · Images · Architecture</div>
+    </div>
+    <div class="season-card" onclick="sendPrompt('Generate Season 2 overview for Docker Kathalu covering Dockerfile, Port mapping and Environment Variables through Buildrax and Portu characters')">
+      <div class="s-num">S2</div>
+      <div class="s-title">Build Saga</div>
+      <div class="s-topics">Dockerfile · Port mapping · Env variables</div>
+    </div>
+    <div class="season-card" onclick="sendPrompt('Generate Season 3 overview for Docker Kathalu covering Volumes, Persistent storage and Networking through Volumo and Netrix characters')">
+      <div class="s-num">S3</div>
+      <div class="s-title">Memory Wars</div>
+      <div class="s-topics">Volumes · Bind mounts · Networking</div>
+    </div>
+    <div class="season-card" onclick="sendPrompt('Generate Season 4 overview for Docker Kathalu about Docker Compose, multi-container communication featuring Composara')">
+      <div class="s-num">S4</div>
+      <div class="s-title">Composara Rises</div>
+      <div class="s-topics">Compose · Databases · Frontend+Backend</div>
+    </div>
+    <div class="season-card" onclick="sendPrompt('Generate Season 5 overview for Docker Kathalu covering Docker Hub, Security, Optimization and Monitoring')">
+      <div class="s-num">S5</div>
+      <div class="s-title">The Registry Arc</div>
+      <div class="s-topics">Hub · Security · Logs · Monitoring</div>
+    </div>
+    <div class="season-card" onclick="sendPrompt('Generate Season 6 overview for Docker Kathalu covering Production issues, Scaling and CI/CD integration with advanced interview scenarios')">
+      <div class="s-num">S6</div>
+      <div class="s-title">Production Wars</div>
+      <div class="s-topics">CI/CD · Scaling · Interview prep</div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- CHARACTERS -->
+  <p class="chars-label">🎭 The Characters</p>
+  <div class="chars-scroll">
+    <div class="char-card c-hero" onclick="showChar('docku')">
+      <span class="char-emoji">🐼</span>
+      <div class="char-name">Docku</div>
+      <div class="char-concept">Docker Hero</div>
+    </div>
+    <div class="char-card c-builder" onclick="showChar('forto')">
+      <span class="char-emoji">🦊</span>
+      <div class="char-name">Forto</div>
+      <div class="char-concept">Force Ops</div>
+    </div>
+    <div class="char-card c-hero" onclick="showChar('portu')">
+      <span class="char-emoji">🐵</span>
+      <div class="char-name">Portu</div>
+      <div class="char-concept">Ports</div>
+    </div>
+    <div class="char-card c-wise" onclick="showChar('volumo')">
+      <span class="char-emoji">🐢</span>
+      <div class="char-name">Volumo</div>
+      <div class="char-concept">Volumes</div>
+    </div>
+    <div class="char-card c-villain" onclick="showChar('crashmora')">
+      <span class="char-emoji">👻</span>
+      <div class="char-name">Crashmora</div>
+      <div class="char-concept">Production Crash</div>
+    </div>
+    <div class="char-card c-builder" onclick="showChar('buildrax')">
+      <span class="char-emoji">🦇</span>
+      <div class="char-name">Buildrax</div>
+      <div class="char-concept">Docker Build</div>
+    </div>
+    <div class="char-card c-wise" onclick="showChar('composara')">
+      <span class="char-emoji">🐍</span>
+      <div class="char-name">Composara</div>
+      <div class="char-concept">Docker Compose</div>
+    </div>
+    <div class="char-card c-builder" onclick="showChar('netrix')">
+      <span class="char-emoji">🕷</span>
+      <div class="char-name">Netrix</div>
+      <div class="char-concept">Networking</div>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- EPISODES -->
+  <p class="ep-label">🎬 Latest Episodes</p>
+  <div class="ep-card ep-s1" onclick="sendPrompt('Generate a full Episode 1 of Docker Kathalu titled The Day Docku Arrived with the complete cinematic story format: hook, Telugu-English story, dialogues, docker commands, beginner explanation, interview understanding, suspense ending, and subtitle summary')">
+    <div class="ep-meta">Season 1 · Episode 1</div>
+    <div class="ep-title">The Day Docku Arrived 🐼</div>
+    <div class="ep-hook">Dockara Vanam lo oka anatha panda... VM World lo lost aipoyaadu. Containers ante em? Oka ancient mystery starts here.</div>
+    <div class="ep-tags">
+      <span class="ep-tag">docker run</span>
+      <span class="ep-tag">containers vs VMs</span>
+      <span class="ep-tag">beginner</span>
+    </div>
+  </div>
+  <div class="ep-card ep-s1" onclick="sendPrompt('Generate full Episode 2 of Docker Kathalu: Buildrax and the Image Forge. Cinematic story about how Docker images are created, layers, and the build process. Include all episode format elements.')">
+    <div class="ep-meta">Season 1 · Episode 2</div>
+    <div class="ep-title">Buildrax and the Image Forge 🦇</div>
+    <div class="ep-hook">Buildrax invents a magical box that can clone itself infinitely. But each clone costs layers... too many layers and the box gets corrupted.</div>
+    <div class="ep-tags">
+      <span class="ep-tag">docker images</span>
+      <span class="ep-tag">image layers</span>
+      <span class="ep-tag">docker pull</span>
+    </div>
+  </div>
+  <div class="ep-card ep-s2" onclick="sendPrompt('Generate full Episode 5 of Docker Kathalu Season 2: Portu and the Wrong Door. Cinematic story about port mapping and how containers expose ports. Include all episode format elements.')">
+    <div class="ep-meta">Season 2 · Episode 1</div>
+    <div class="ep-title">Portu and the Wrong Door 🐵</div>
+    <div class="ep-hook">Portu opens port 3000... but traffic goes to 8080. Dockara Vanam citizens are panicking. A networking disaster unfolds.</div>
+    <div class="ep-tags">
+      <span class="ep-tag">-p 3000:8080</span>
+      <span class="ep-tag">port mapping</span>
+      <span class="ep-tag">EXPOSE</span>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- COMMANDS -->
+  <div class="cmd-section">
+    <div class="cmd-title">⚡ Command Universe Map</div>
+    <div class="cmd-grid">
+      <div class="cmd-item" onclick="sendPrompt('Explain docker run command in Docker Kathalu story style with Docku character')">
+        <div class="cmd-who">🐼 Docku</div>
+        <div class="cmd-code">docker run -d -p 80:80 nginx</div>
+        <div class="cmd-meaning">Container ni jagate lo release cheyyadam</div>
+      </div>
+      <div class="cmd-item" onclick="sendPrompt('Explain docker rm -f command in Docker Kathalu story style with Forto character')">
+        <div class="cmd-who">🦊 Forto</div>
+        <div class="cmd-code">docker rm -f container_id</div>
+        <div class="cmd-meaning">Force ga container ni destroy cheyyadam</div>
+      </div>
+      <div class="cmd-item" onclick="sendPrompt('Explain docker volume create command in Docker Kathalu story style with Volumo character')">
+        <div class="cmd-who">🐢 Volumo</div>
+        <div class="cmd-code">docker volume create mydata</div>
+        <div class="cmd-meaning">Memory cave lo data ni forever store cheyyadam</div>
+      </div>
+      <div class="cmd-item" onclick="sendPrompt('Explain docker compose up command in Docker Kathalu story style with Composara character')">
+        <div class="cmd-who">🐍 Composara</div>
+        <div class="cmd-code">docker compose up -d</div>
+        <div class="cmd-meaning">Anni creatures ni okesari jagipinchadanam</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="section-divider"></div>
+  <div class="tagline">
+    <div class="tagline-main">🔥 A Marvel-style DevOps Cinematic Universe</div>
+    <div class="tagline-sub">Telugu learners kosam · Docker masters avvadam kosam</div>
+  </div>
+</div>
+
+<!-- CHARACTER POPUP -->
+<div class="popup-overlay" id="popup" onclick="closePopup(event)">
+  <div class="popup-box" id="popupBox">
+    <button class="popup-close" onclick="document.getElementById('popup').classList.remove('active')">✕</button>
+    <span class="popup-emoji" id="pEmoji"></span>
+    <div class="popup-name" id="pName"></div>
+    <div class="popup-concept" id="pConcept"></div>
+    <div class="popup-desc" id="pDesc"></div>
+    <div class="popup-cmds" id="pCmds"></div>
+    <div class="popup-power" id="pPower"></div>
+    <button class="ask-claude-btn" id="pBtn">Ask Claude to generate an episode with this character ↗</button>
+  </div>
+</div>
+
+<script>
+const CHARS = {
+  docku: {
+    emoji:'🐼', name:'Docku', concept:'Docker itself — the beginner hero',
+    desc:'Dockara Vanam lo oka anatha panda. Cute, curious, always making mistakes but learning step by step. He represents every beginner who opens Docker for the first time and gets confused by the daemon.',
+    cmds:['docker run hello-world','docker ps','docker start / stop / restart'],
+    power:'Power: Can create a container from any image in seconds',
+    prompt:'Generate a full episode featuring Docku learning what a container is, with cinematic storytelling in Telugu-English style'
+  },
+  forto: {
+    emoji:'🦊', name:'Forto', concept:'Force operations — docker rm -f, docker kill',
+    desc:'Aggressive warrior fox with red glowing armor. When a container refuses to stop, Forto is called. Brutal, efficient, no mercy. In production, he\'s both feared and essential.',
+    cmds:['docker rm -f <id>','docker kill <id>','docker stop (without -f = Forto without armor)'],
+    power:'Power: Can terminate ANY running process instantly',
+    prompt:'Generate an episode where Forto has to force-kill rogue containers that are causing memory leaks in Dockara Vanam'
+  },
+  portu: {
+    emoji:'🐵', name:'Portu', concept:'Ports & networking — port mapping madness',
+    desc:'Funny monkey who is ALWAYS opening the wrong doors. Port 8080 connects to 3000. Traffic ends up in the wrong container. Comedy + real networking nightmares.',
+    cmds:['docker run -p 8080:80 nginx','-p host_port:container_port','EXPOSE in Dockerfile'],
+    power:'Power: Opens magical portal keys between the outside world and containers',
+    prompt:'Generate an episode where Portu accidentally maps all ports wrong during a production deployment crisis'
+  },
+  volumo: {
+    emoji:'🐢', name:'Volumo', concept:'Docker Volumes — persistent storage',
+    desc:'Ancient wise turtle who stores memories forever. When containers die, their data dies too — unless Volumo is guarding it inside the Memory Caves of Dockara Vanam.',
+    cmds:['docker volume create mydata','docker run -v mydata:/app/data','docker volume ls'],
+    power:'Power: Stores memories across container deaths — data never lost',
+    prompt:'Generate an episode where Volumo saves the day when Docku\'s container dies and all the data would have been lost'
+  },
+  crashmora: {
+    emoji:'👻', name:'Crashmora', concept:'Production crashes, downtime, memory leaks',
+    desc:'The ultimate villain. Black smoke. Corrupted terminals. He appears every time a container fails in production at 3am. OOM kills, segfaults, infinite loops — all forms of Crashmora.',
+    cmds:['docker logs <id>','docker stats','docker inspect <id>'],
+    power:'Power: Causes OOM kills, port conflicts, and 3am production nightmares',
+    prompt:'Generate a dramatic episode where Crashmora attacks production and the team must use docker logs and docker stats to defeat him'
+  },
+  buildrax: {
+    emoji:'🦇', name:'Buildrax', concept:'Docker build — Dockerfile & image creation',
+    desc:'Crazy inventor bat creature. Lives in the Build Cave. Creates magical image boxes using Dockerfile spells. Each FROM, RUN, COPY is a layer of magic. Too many layers = bloated image.',
+    cmds:['docker build -t myapp .','docker build --no-cache','COPY . /app in Dockerfile'],
+    power:'Power: Creates reproducible magical image boxes from Dockerfile spells',
+    prompt:'Generate an episode where Buildrax tries to optimize a Dockerfile and reduce image size from 2GB to 200MB'
+  },
+  composara: {
+    emoji:'🐍', name:'Composara', concept:'Docker Compose — multi-container orchestration',
+    desc:'Ancient serpent who can control multiple creatures simultaneously with magical chains. Frontend, Backend, Database — all coordinated with a single docker compose up.',
+    cmds:['docker compose up -d','docker compose down','docker compose logs -f'],
+    power:'Power: Commands all containers simultaneously with one spell',
+    prompt:'Generate an episode where Composara orchestrates a 5-container microservices setup and what happens when one container fails'
+  },
+  netrix: {
+    emoji:'🕷', name:'Netrix', concept:'Docker networking — bridge, host, overlay networks',
+    desc:'Silent spider creature spinning invisible webs between containers. Bridge networks, custom networks, container-to-container communication — all Netrix\'s domain. Never speaks, only weaves.',
+    cmds:['docker network create mynet','docker run --network mynet','docker network inspect mynet'],
+    power:'Power: Connects containers invisibly across any network topology',
+    prompt:'Generate an episode where Netrix has to connect two isolated containers that cannot find each other across different networks'
+  }
+};
+
+function showChar(id) {
+  const c = CHARS[id];
+  document.getElementById('pEmoji').textContent = c.emoji;
+  document.getElementById('pName').textContent = c.name;
+  document.getElementById('pConcept').textContent = c.concept;
+  document.getElementById('pDesc').textContent = c.desc;
+  document.getElementById('pCmds').innerHTML = c.cmds.map(cmd => `<div class="popup-cmd">$ ${cmd}</div>`).join('');
+  document.getElementById('pPower').textContent = c.power;
+  document.getElementById('pBtn').onclick = () => { sendPrompt(c.prompt); closePopupNow(); };
+  document.getElementById('popup').classList.add('active');
+}
+function closePopup(e) { if(e.target.id === 'popup') closePopupNow(); }
+function closePopupNow() { document.getElementById('popup').classList.remove('active'); }
+
+// STAR FIELD
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+let stars = [];
+function initStars() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  stars = Array.from({length: 120}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.2 + 0.2,
+    a: Math.random(),
+    speed: Math.random() * 0.008 + 0.002
+  }));
+}
+function drawStars() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(s => {
+    s.a += s.speed;
+    const alpha = (Math.sin(s.a) + 1) / 2 * 0.7 + 0.1;
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(180,220,255,${alpha})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+initStars();
+drawStars();
+window.addEventListener('resize', initStars);
+</script>

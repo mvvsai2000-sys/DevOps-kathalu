@@ -1,0 +1,108 @@
+# Episode 10 🔥
+
+## “Server sudden ga crash ayyindi... Reason enti?” 😳💾
+
+---
+
+Late night sudden ga production alerts start ayyayi... 🚨
+
+⚠️ DISK SPACE CRITICAL
+⚠️ STORAGE 99% FULL
+
+“Ayyo...!
+
+Disk full ayithe...
+
+Server motham crash avthunda?” 😳🔥
+
+Alage mana phone storage full ayithe...
+
+New photos kuda save avvavu kada? 📱⚠️
+
+Alage Linux lo kuda...
+
+Storage full ayithe applications kuda stop aipothayi! 👀🔥
+
+━━━━━━━━━━━━━━━
+
+## Anaganaga...
+
+Late night mana hero monitoring alerts check chestunnadu. 😎🌙
+
+Sudden ga Slack lo message vachindi... 🚨
+
+⚠️ ALERT: Disk usage 98% on /var/log
+
+“Ayyo...! 😳
+
+Disk almost full ayyindi!
+
+Application data write cheyyalekapothe — server DOWN!” 🤯🔥
+
+Ventane terminal open chesi command run chesadu...
+
+```bash id="9q3f7m"
+df -h
+```
+
+Boom! ⚡
+
+Screen meeda disk usage motham kanipinchindi... 👀
+
+```bash id="j4x1nv"
+Filesystem      Size   Used   Avail   Use%
+/dev/sda1        50G    49G    500M    98%
+```
+
+“Ahaaa! 😵
+
+/var/log folder motham disk ni eat chestundi!” 🔥
+
+Appude ataniki oka memory vachindi... 💡
+
+“Phone storage full ayinappudu...
+
+Which album ekkuva space occupy chestundo check chestham kada?
+
+Alage Linux lo kuda — which folder storage motham use chestundo check cheyyachu!” 👀🔥
+
+Ventane old logs compress chesadu...
+
+```bash id="f2t8ws"
+gzip /var/log/app/*.log.old
+```
+
+Konni minutes tarvata... 👀
+
+✅ Disk usage: 60%
+
+✅ Application running
+
+✅ No data loss
+
+✅ Team happy 😌🏆
+
+“Ahaaaa! Disk issue finally solve ayyindi!” 😎🔥
+
+━━━━━━━━━━━━━━━
+
+🔍 `df -h`
+→ Disk usage ni human-readable format lo choodataniki
+
+⚠️ Use% > 90%
+→ Danger zone!
+
+💡 `-h`
+→ Sizes ni GB/MB format lo chupisthundi
+
+━━━━━━━━━━━━━━━
+
+Kani oka doubt vachindi... 😳
+
+“Disk full chesindi /var/log...
+
+But exact ga which folder?” 👀🔥
+
+Folder by folder ela check cheyyali?
+
+Adhe next episode lo chuddam... 🚀

@@ -1,0 +1,84 @@
+
+
+# Episode 8 🔥  
+## “PORT 8080 ni evaru use chestunnaru?” 👀
+
+---
+
+Phone battery sudden ga fast ga drain ayithe...
+
+Ye app background lo ekkuva running lo undo check chestham kada? 📱👀
+
+Alage Linux lo kuda...
+
+Ye process port ni use chestundo easy ga kanukkovachu! 🔥
+
+━━━━━━━━━━━━━━━
+
+## Anaganaga...
+
+Mana hero app deploy chestunte sudden ga error vachindi... 😳
+
+⚠️ `FATAL: Port 8080 already in use`
+
+“8080 port ni evaru use chestunnaru?” 🤯
+
+Server lo chala applications run avuthunnayi...
+
+Correct ga ela identify cheyyalo ardham kaaledu. 😵
+
+Appude ataniki mobile battery settings gurthochindi. 💡
+
+“Phone lo battery ekkuva use chestunna app ni ela identify chesthamo...
+
+Alage Linux lo kuda port use chestunna process ni check cheyyachu!” 😎🔥
+
+Ventane command run chesadu...
+
+```bash id="bzjnrp"
+lsof -i :8080
+```
+
+Boom! ⚡
+
+```bash id="9fifkr"
+java   8092   LISTEN
+```
+
+“Ahaaa!” 🤯
+
+“Java application 8080 port ni occupy chesindi!” 🔥
+
+Senior cheppadu...
+
+“8092 ante PID... Ante aa process unique ID ra!” 😎
+
+Ventane mana hero process stop chesadu...
+
+```bash id="dbexmz"
+kill -9 8092
+```
+
+2 seconds later... 👀
+
+✅ APPLICATION ONLINE
+
+“Ahaaaa! Finally app up ayyindi!” 🤯🔥
+
+━━━━━━━━━━━━━━━
+
+🔍 `lsof -i :8080`  
+→ Port ni evaru use chestunnaro choodataniki
+
+❌ `kill -9 PID`  
+→ Process ni stop cheyyadaniki
+
+━━━━━━━━━━━━━━━
+
+Kani imagine cheyyi... 😳
+
+Server slow ga undi...
+
+CPU ekkuva use chestunna process evaro ela kanukkovali? 👀🔥
+
+Adhe next episode lo chuddam... 🚀

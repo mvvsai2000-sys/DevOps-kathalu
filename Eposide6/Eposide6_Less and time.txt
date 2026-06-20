@@ -1,0 +1,91 @@
+Instagram lo old chats scroll chesi...
+exact ga eppudu message vachindo chustharu kada? 👀
+
+Alage Linux lo kuda ERROR exact ga eppudu start ayyindo telusukovachu! 🔥
+
+Anaganaga...
+
+Ep5 lo mana hero 257 ERRORS kanukkunnadu. 😎
+
+Manager happy... kani inko question adigadu.
+
+"Error morning nundi vastuundaa?
+Leka ippude start ayyindaa?
+Exact time chupinchu!" 😳
+
+Mana hero confident ga annadu...
+
+"Okay... grep chestham!" 😎
+
+grep ERROR app.log
+
+Boom! 💥
+
+257 ERROR lines oka shot lo screen meeda vachayi! 😱
+
+"Ammooo!
+Anni lines ela choodali?!
+Scroll cheyyadam impossible!" 😵
+
+Appude ataniki WhatsApp gurthochindi. 💡
+
+"WhatsApp lo old chats slow ga scroll chesi...
+fight exact ga eppudu start ayyindo chustham kada? 😅
+
+Alage Linux lo kuda slow ga scroll cheyyachu!"
+
+grep ERROR app.log | less
+
+Ippudu ERROR lines okkokati ga easy ga scroll avuthunnayi. 👀
+
+09:15 ERROR Payment Failed
+
+09:30 ERROR API Timeout
+
+10:00 ERROR Database Down 😳
+
+"Ahaaa!" 🤯
+
+"Morning 9:15 nundi issue start ayyindi!"
+
+Kani senior navvuthu annadu... 😏
+
+"Idi slow ga scroll chesav...
+Faster way kuda untundi!"
+
+"First ERROR line maatrame choodali ante..."
+
+grep ERROR app.log | head -1
+
+09:15:23 ERROR Payment Failed ✅
+
+"Instant! ⚡
+2 seconds lo first ERROR dorikindi!" 😎
+
+Mana hero confident ga manager ki cheppadu...
+
+"Sir, ERROR morning 9:15:23 ki Payment Failed tho start ayyindi!" ✅
+
+Manager impressed. 🏆
+
+━━━━━━━━━━━━━━━
+
+📜 less → Large output ni slow ga scroll cheyyadaniki
+
+⬆️ head -1 → First line maatrame instant ga choodataniki
+
+🔗 grep | less / grep | head -1 → Filter + analyze combo
+
+━━━━━━━━━━━━━━━
+
+Kani manager inko question adigadu... 😳
+
+"Exact ga file lo ye LINE NUMBER lo undi?
+
+Fix cheyyadaniki correct location kavali!"
+
+Mana hero silent ayyadu. 🤐
+
+DevOps Engineers exact line number ni seconds lo ela kanukkuntaro telusa? 👀
+
+Adhe next episode lo chuddam... 🚀

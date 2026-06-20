@@ -1,0 +1,105 @@
+Gallery lo thousands of photos madhya...
+oka specific photo exact ga ela search chestav? 📸
+
+Search kada? 😎
+
+Alage Linux lo kuda thousands of files madhya exact file ni seconds lo kanukkovachu! 🔥
+
+Anaganaga...
+
+Ep6 lo mana hero ERROR timeline kanukkunnadu. 😎
+
+Kani sudden ga production app down ayyindi! 😳
+
+Manager tension lo annadu...
+
+"nginx config file edit cheyyali...
+Kani exact path teliyadu!" 😵
+
+Mana hero shock ayyadu.
+
+"Server lo inni folders unnayi...
+Exact file ela dorukutundi?!" 🤯
+
+Manual ga folders open cheyyadam start chesadu...
+
+/logs
+/config
+/backup
+
+Kani ekkada file dorakaledu. 😭
+
+Appude ataniki gallery gurthochindi. 💡
+
+"Gallery lo photo search chestham kada?
+
+Alage Linux lo kuda file name tho search cheyyachu!" 😎
+
+Ventane command use chesadu...
+
+find /etc -name "nginx.conf"
+
+"Linux lo config files mostly /etc folder lo untayi 😎
+
+Kabatti nginx.conf file akkada unda ani search chesa annadu!"
+
+
+"Ahaaa!
+Exact nginx file dorikindi!" 🤯🔥
+
+Mana hero fast ga config edit chesadu...
+
+Kani app inka down lone undi! 😳
+
+"Ammooo...
+Mari problem ekkada undi?" 😵
+
+Senior calm ga annadu... 😏
+
+"Recent ga update ayyina log files chuddam."
+
+Ventane mana hero command run chesadu...
+
+find /var/logs -name "*.log" -mtime -1
+
+
+"Recent ga update ayyina log files lone latest errors untayi kada? 👀
+
+Anduke recently change ayyina .log files ni search chestunna ani annadu hero!" 🔥
+
+Instant ga results vachayi. 👀
+
+/var/logs/nginx/error.log
+
+/var/logs/app/crash.log 😳
+
+Mana hero ventane crash.log open chesadu...
+
+chusthe Port 8080 already in use! ⚠️
+
+"Ahaaa!" 🤯
+
+"Port conflict valla app crash ayyindi!" 🔥
+
+App finally up ayyindi. ✅
+
+
+━━━━━━━━━━━━━━━
+
+🔍 find /etc -name "nginx.conf"
+→ Exact config file search cheyyadaniki
+
+🕒 find /var/logs -name "*.log" -mtime -1
+→ Recent ga update ayyina log files kanukkodaniki
+
+━━━━━━━━━━━━━━━
+
+Kani imagine cheyyi... 😳
+
+Port 8080 already use avuthundi...
+
+Kani aa port ni exact ga evaru use chestunnaru? 👀
+
+Aa process ni DevOps Engineers seconds lo ela kanukkoni kill chestaro telusa? 🔥
+
+Adhe next episode lo chuddam... 🚀

@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOps Kathalu — Episode Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --dk: #0a0e1a;
+    --dk2: #111827;
+    --dk3: #1a2133;
+    --dk4: #1e2840;
+    --green: #00ff88;
+    --green-dim: #00cc6a;
+    --green-glow: rgba(0,255,136,0.12);
+    --amber: #ffb347;
+    --red: #ff4757;
+    --blue: #4fc3f7;
+    --purple: #b39ddb;
+    --text: #e8eaf0;
+    --text-dim: #8892a0;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(255,255,255,0.15);
+    --card-bg: rgba(255,255,255,0.03);
+  }
+
+  body {
+    background: var(--dk);
+    color: var(--text);
+    font-family: 'Baloo 2', sans-serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--dk2);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo-badge {
+    background: var(--green);
+    color: #000;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    padding: 5px 11px;
+    border-radius: 7px;
+    text-transform: uppercase;
+  }
+  .header-text .title { font-size: 17px; font-weight: 700; }
+  .header-text .sub { font-size: 11px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+  .status-dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    margin-left: auto;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,255,136,0.4)} 50%{opacity:0.6;box-shadow:0 0 0 6px rgba(0,255,136,0)} }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; min-height: calc(100vh - 57px); }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 300px;
+    min-width: 300px;
+    background: var(--dk2);
+    border-right: 1px solid var(--border);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+  }
+
+  .sidebar-section { display: flex; flex-direction: column; gap: 8px; }
+  .sidebar-section label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+  }
+
+  .api-key-wrap { position: relative; }
+  .api-key-wrap input {
+    width: 100%;
+    background: var(--dk3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 40px 10px 12px;
+    border-radius: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .api-key-wrap input:focus { border-color: var(--green); }
+  .eye-btn {
+    position: absolute; right: 10px; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none; color: var(--text-dim);
+    cursor: pointer; font-size: 16px; padding: 0;
+  }
+
+  select, input[type="number"], input[type="text"] {
+    width: 100%;
+    background: var(--dk3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 12px;
+    border-radius: 9px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  select:focus, input:focus { border-color: var(--green); }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238892a0' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+
+  .gen-btn {
+    background: var(--green);
+    color: #000;
+    border: none;
+    padding: 13px;
+    border-radius: 10px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    width: 100%;
+    letter-spacing: 0.3px;
+  }
+  .gen-btn:hover { opacity: 0.88; }
+  .gen-btn:active { transform: scale(0.98); }
+  .gen-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+  .cmd-map {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-height: 320px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--dk4) transparent;
+  }
+  .cmd-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    border: 1px solid transparent;
+    transition: background 0.15s;
+  }
+  .cmd-item.done { background: rgba(0,255,136,0.06); border-color: rgba(0,255,136,0.15); }
+  .cmd-item.current { background: rgba(255,179,71,0.08); border-color: rgba(255,179,71,0.25); }
+  .cmd-item .ep-n { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); min-width: 26px; }
+  .cmd-item .cmd-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; }
+  .cmd-item.done .cmd-name { color: var(--green-dim); }
+  .cmd-item.current .cmd-name { color: var(--amber); }
+  .cmd-item.future .cmd-name { color: var(--text-dim); }
+  .cmd-item .tick { font-size: 10px; margin-left: auto; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+  }
+
+  .help-box {
+    background: var(--dk3);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .help-box a { color: var(--blue); text-decoration: none; }
+  .help-box a:hover { text-decoration: underline; }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 32px;
+  }
+
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    gap: 16px;
+  }
+  .empty-icon { font-size: 56px; opacity: 0.15; }
+  .empty-state h2 { font-size: 20px; font-weight: 700; color: var(--text); }
+  .empty-state p { font-size: 14px; color: var(--text-dim); max-width: 400px; line-height: 1.7; }
+  .empty-steps {
+    display: flex; flex-direction: column; gap: 10px;
+    text-align: left; margin-top: 8px;
+  }
+  .step {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: var(--dk3);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-dim);
+    max-width: 420px;
+  }
+  .step-num {
+    background: var(--green-glow);
+    color: var(--green);
+    border: 1px solid rgba(0,255,136,0.25);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── EPISODE CARDS ── */
+  .episode-card {
+    background: var(--dk2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .episode-card:hover { border-color: var(--border-hover); }
+
+  .ep-header {
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .ep-header:hover { background: var(--card-bg); }
+
+  .ep-num-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    background: var(--green-glow);
+    border: 1px solid rgba(0,255,136,0.2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .ep-cmd-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--amber);
+    background: rgba(255,179,71,0.1);
+    border: 1px solid rgba(255,179,71,0.2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .ep-story-title { font-size: 14px; font-weight: 600; flex: 1; color: var(--text); }
+  .ep-chevron { color: var(--text-dim); font-size: 20px; transition: transform 0.25s; }
+  .ep-chevron.open { transform: rotate(180deg); }
+
+  .ep-body { display: none; padding: 0 22px 22px; border-top: 1px solid var(--border); }
+  .ep-body.open { display: block; }
+
+  .ep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+  .ep-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px; }
+
+  .ep-block {
+    background: var(--dk3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .ep-block-full {
+    background: var(--dk3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-top: 14px;
+  }
+  .block-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .bl-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  .badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .b-hook { background: rgba(255,71,87,0.15); color: var(--red); border: 1px solid rgba(255,71,87,0.25); }
+  .b-story { background: rgba(179,157,219,0.15); color: var(--purple); border: 1px solid rgba(179,157,219,0.25); }
+  .b-visual { background: rgba(79,195,247,0.15); color: var(--blue); border: 1px solid rgba(79,195,247,0.25); }
+  .b-cta { background: rgba(0,255,136,0.1); color: var(--green-dim); border: 1px solid rgba(0,255,136,0.2); }
+  .b-cap { background: rgba(255,179,71,0.1); color: var(--amber); border: 1px solid rgba(255,179,71,0.2); }
+
+  .narration-text {
+    font-size: 13.5px;
+    line-height: 1.85;
+    color: var(--text);
+    white-space: pre-wrap;
+    font-family: 'Baloo 2', sans-serif;
+  }
+  .block-text { font-size: 13px; line-height: 1.7; color: var(--text); }
+  .hashtag-text { font-size: 12px; color: var(--blue); line-height: 1.8; }
+  .thumb-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  .visual-scene {
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-bottom: 8px; font-size: 12.5px; color: var(--text);
+  }
+  .scene-n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--amber);
+    background: rgba(255,179,71,0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .copy-btn {
+    background: var(--dk4);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: 'Baloo 2', sans-serif;
+    transition: color 0.2s, border-color 0.2s;
+    display: inline-block;
+    margin-top: 10px;
+  }
+  .copy-btn:hover { color: var(--green); border-color: rgba(0,255,136,0.4); }
+
+  /* ── PROGRESS LOADING ── */
+  .progress-bar-wrap {
+    background: var(--dk2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 28px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .progress-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .progress-sub { font-size: 12px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; margin-bottom: 18px; }
+  .progress-track {
+    background: var(--dk3);
+    border-radius: 99px;
+    height: 6px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+  .dots span {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    margin: 0 3px;
+    animation: bounce 1.2s infinite;
+  }
+  .dots span:nth-child(2) { animation-delay: 0.2s; }
+  .dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-7px)} }
+
+  /* ── ERROR ── */
+  .error-box {
+    background: rgba(255,71,87,0.08);
+    border: 1px solid rgba(255,71,87,0.3);
+    color: #ff6b7a;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .export-bar {
+    display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .export-btn {
+    background: var(--dk3);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Baloo 2', sans-serif;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .export-btn:hover { color: var(--green); border-color: rgba(0,255,136,0.4); }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--dk4); border-radius: 99px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-badge">DK</div>
+  <div class="header-text">
+    <div class="title">DevOps Kathalu — Episode Generator</div>
+    <div class="sub">@TheDevOpsWiz · Telugu-English Cinematic Series · Powered by Claude AI</div>
+  </div>
+  <div class="status-dot" id="statusDot"></div>
+</div>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <label>🔑 Anthropic API Key</label>
+      <div class="api-key-wrap">
+        <input type="password" id="apiKey" placeholder="sk-ant-..." autocomplete="off">
+        <button class="eye-btn" onclick="toggleKey()" title="Show/hide key">👁</button>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <label>Start from Episode #</label>
+      <input type="number" id="startEp" value="7" min="1" max="25">
+    </div>
+
+    <div class="sidebar-section">
+      <label>How Many Episodes</label>
+      <select id="epCount">
+        <option value="1">1 Episode</option>
+        <option value="2">2 Episodes</option>
+        <option value="3" selected>3 Episodes</option>
+        <option value="5">5 Episodes</option>
+      </select>
+    </div>
+
+    <div class="sidebar-section">
+      <label>Story World</label>
+      <select id="storyWorld">
+        <option value="auto">Auto (AI picks best)</option>
+        <option value="office">Office / Production</option>
+        <option value="hostel">Hostel / College</option>
+        <option value="family">Family / Mom stories</option>
+        <option value="village">Village / Grandpa</option>
+        <option value="midnight">Midnight server crisis</option>
+        <option value="instagram">Instagram / Social media</option>
+        <option value="swiggy">Swiggy / Zomato delivery</option>
+      </select>
+    </div>
+
+    <button class="gen-btn" id="genBtn" onclick="generateEpisodes()">🎬 Generate Episodes</button>
+
+    <div class="divider"></div>
+
+    <div class="sidebar-section">
+      <label>Command Roadmap</label>
+      <div class="cmd-map" id="cmdMap"></div>
+    </div>
+
+    <div class="help-box">
+      Get your free API key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a><br><br>
+      Your key is used only in your browser and never stored anywhere.
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="mainContent">
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">🎬</div>
+      <h2>DevOps Kathalu Generator</h2>
+      <p>Generate complete cinematic Instagram Reel scripts for your Telugu DevOps series — with narration, visuals, captions & hashtags.</p>
+      <div class="empty-steps">
+        <div class="step"><div class="step-num">1</div>Paste your Anthropic API key in the sidebar</div>
+        <div class="step"><div class="step-num">2</div>Choose which episode to start from (default: Ep 6)</div>
+        <div class="step"><div class="step-num">3</div>Pick a story world or leave as Auto</div>
+        <div class="step"><div class="step-num">4</div>Click Generate — scripts appear one by one</div>
+      </div>
+    </div>
+    <div id="episodesContainer"></div>
+  </main>
+
+</div>
+
+<script>
+// ── COMMAND ROADMAP ──
+const ROADMAP = [
+  {ep:1,  cmd:'pwd',                        done:true},
+  {ep:2,  cmd:'ls',                         done:true},
+  {ep:3,  cmd:'cat / head / tail',          done:true},
+  {ep:4,  cmd:'tail -f + grep',             done:true},
+  {ep:5,  cmd:'grep -c',                    done:true},
+  {ep:6,  cmd:'grep | less + grep | head -1', done:true},
+  {ep:7,  cmd:'grep -n (line number)',      done:false},
+  {ep:8,  cmd:'wc',                         done:false},
+  {ep:9,  cmd:'sort + uniq',                done:false},
+  {ep:10, cmd:'diff',                       done:false},
+  {ep:11, cmd:'find',                       done:false},
+  {ep:12, cmd:'nano',                       done:false},
+  {ep:13, cmd:'vim',                        done:false},
+  {ep:14, cmd:'mkdir + cd',                 done:false},
+  {ep:15, cmd:'touch + rm',                 done:false},
+  {ep:16, cmd:'cp + mv',                    done:false},
+  {ep:17, cmd:'chmod + chown',              done:false},
+  {ep:18, cmd:'ps + kill',                  done:false},
+  {ep:19, cmd:'top / htop',                 done:false},
+  {ep:20, cmd:'free + df + du',             done:false},
+  {ep:21, cmd:'ping + curl',                done:false},
+  {ep:22, cmd:'systemctl + journalctl',     done:false},
+  {ep:23, cmd:'tar + zip',                  done:false},
+  {ep:24, cmd:'scp + rsync',                done:false},
+  {ep:25, cmd:'alias + env + export',       done:false},
+];
+
+const PREV_CONTEXT = `Episodes 1-6 already created (DO NOT repeat these hooks, analogies, or story setups):
+
+Ep1: pwd — Hero joined new company, nervous first day, typed pwd to find where he is in the server
+Ep2: ls — Listed files to find the correct project folder
+Ep3: cat / head / tail — Read a huge log file, manager pressure, found issue using head and tail
+Ep4: tail -f + grep — Live monitoring of production logs; Instagram new messages analogy; grep to filter ERROR lines only
+Ep5: grep -c — Counted 257 ERROR occurrences using grep -c; Instagram post count analogy; cliffhanger: when did errors start?
+Ep6: grep | less + grep | head -1 — Manager asked exact ERROR start time; WhatsApp old chat scroll analogy for less; used grep ERROR | less to scroll slowly, then grep ERROR | head -1 to instantly get first ERROR line (09:15:23 Payment Failed); cliffhanger: manager asked exact LINE NUMBER of the error
+
+IMPORTANT for Ep7 onwards:
+- Ep6 cliffhanger was: manager wants exact LINE NUMBER — "Fix cheyyadaniki correct location kavali!"
+- Ep7 must pick up from this cliffhanger and teach grep -n (line numbers in output)
+- Continue the same office/production story universe
+- Hero's name/character is consistent throughout`;
+
+// Render roadmap
+function renderRoadmap() {
+  const start = parseInt(document.getElementById('startEp').value) || 6;
+  const count = parseInt(document.getElementById('epCount').value) || 3;
+  const map = document.getElementById('cmdMap');
+  map.innerHTML = ROADMAP.map(r => {
+    const isCurrent = r.ep >= start && r.ep < start + count;
+    const cls = r.done ? 'done' : isCurrent ? 'current' : 'future';
+    const tick = r.done ? '✓' : isCurrent ? '●' : '';
+    return `<div class="cmd-item ${cls}">
+      <span class="ep-n">Ep${r.ep}</span>
+      <span class="cmd-name">${r.cmd}</span>
+      <span class="tick" style="color:${r.done?'var(--green-dim)':isCurrent?'var(--amber)':'transparent'}">${tick}</span>
+    </div>`;
+  }).join('');
+}
+renderRoadmap();
+document.getElementById('startEp').addEventListener('input', renderRoadmap);
+document.getElementById('epCount').addEventListener('change', renderRoadmap);
+
+function toggleKey() {
+  const inp = document.getElementById('apiKey');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+// ── API CALL ──
+async function callClaude(apiKey, systemPrompt, userPrompt) {
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1200,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userPrompt }]
+    })
+  });
+
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API error ${resp.status}`);
+  }
+
+  const data = await resp.json();
+  const text = data.content.map(i => i.text || '').filter(Boolean).join('');
+  const clean = text.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
+  return JSON.parse(clean);
+}
+
+function buildSystemPrompt() {
+  return `You are a creative Telugu-English storytelling writer for "DevOps Kathalu" — a viral cinematic Instagram Reel series teaching Linux commands to beginners.
+
+SERIES IDENTITY:
+- Brand: @TheDevOpsWiz
+- Hero: same recurring DevOps engineer character across all 25 episodes
+- Opening: ALWAYS start narration with "Anaganaga..."
+- Victory line: "Mana hero production lo hero ayyadu!"
+- Cliffhanger: "Adhe next episode lo chuddam... 🚀"
+- Learning moment: "Simple kada? 😎"
+
+LANGUAGE STYLE:
+- Telugu-English mix (Tanglish) — conversational, warm, funny
+- Easy words — beginner friendly
+- Short punchy lines — cinematic pacing
+- Real-life analogies from Instagram, WhatsApp, Swiggy, YouTube, etc.
+- Sound like a friend explaining, NOT a textbook
+
+STRICT RULES:
+- 45-60 second reel = ~120-150 words narration max
+- First 3 seconds = HOOK that creates instant curiosity
+- One main command per episode (two max if naturally combined)
+- NEVER feel like classroom teaching
+- NEVER repeat hooks or analogies from previous episodes
+- Always connect naturally to previous episode continuity
+- Strong emotional payoff at the end
+
+Return ONLY a valid JSON object with NO markdown fences, NO explanation text, just the raw JSON:
+{
+  "episodeNumber": <number>,
+  "command": "<command>",
+  "storyTitle": "<creative story title>",
+  "hook": "<first 1-2 lines — must create instant curiosity>",
+  "narration": "<full reel script in Tanglish, ~130 words, starts with Anaganaga...>",
+  "visualIdeas": ["<scene 1>", "<scene 2>", "<scene 3>", "<scene 4>"],
+  "endingTeaser": "<cliffhanger for next episode>",
+  "caption": "<2-3 line Instagram caption>",
+  "hashtags": "#devopskathalu #telugudevops #linuxcommands #devopslearning #devopsengineer #linux #cloudcomputing #devopslife #aws #devops",
+  "thumbnailText": "<3-4 bold words for thumbnail>"
+}`;
+}
+
+function buildUserPrompt(epNum, cmd, storyWorld) {
+  const worlds = {
+    auto: 'Pick the most creative and emotionally engaging story world that best fits this command naturally.',
+    office: 'Set story in office environment with manager pressure and production urgency.',
+    hostel: 'Set in college hostel — friends, student life, hostel warden pressure.',
+    family: 'Use family story — mom calling, dad confused by computer, village relatives.',
+    village: 'Village setting — grandfather wisdom used as the analogy for the command.',
+    midnight: 'Midnight server crisis — hero woken up at 2AM, eyes half open, fixing production.',
+    instagram: 'Use Instagram creator / influencer world as the story setting and analogy.',
+    swiggy: 'Use Swiggy/Zomato food delivery experience as the real-life analogy.',
+  };
+
+  const usedAnalogies = `ALREADY USED ANALOGIES (never repeat these):
+- Instagram search post count (Ep5)
+- WhatsApp old chat scrolling (Ep6)
+- Instagram new messages appearing (Ep4)`;
+
+  return `${PREV_CONTEXT}
+
+${usedAnalogies}
+
+Generate Episode ${epNum} covering the Linux command: ${cmd}
+
+Story world preference: ${worlds[storyWorld] || worlds.auto}
+
+Requirements:
+- Hook must be COMPLETELY different from all previous episodes
+- Use a FRESH real-life analogy not used in Eps 1-6
+- Continue naturally from Ep6's cliffhanger (manager wants exact line number)
+- Hero must face a problem only THIS command solves
+- Strong "aha moment" when hero uses the command
+- End with a cliffhanger teasing Episode ${epNum + 1}
+- ~130 words narration, Tanglish, cinematic and emotional
+- Start narration with "Anaganaga..."
+
+Return only the raw JSON object, no markdown, no extra text.`;
+}
+
+// ── EPISODE RENDER ──
+function renderEpisode(ep) {
+  return `
+  <div class="episode-card" id="epcard-${ep.episodeNumber}">
+    <div class="ep-header" onclick="toggleCard(${ep.episodeNumber})">
+      <span class="ep-num-badge">Episode ${ep.episodeNumber}</span>
+      <span class="ep-cmd-badge">${ep.command}</span>
+      <span class="ep-story-title">${ep.storyTitle}</span>
+      <span class="ep-chevron open" id="chev-${ep.episodeNumber}">⌄</span>
+    </div>
+    <div class="ep-body open" id="body-${ep.episodeNumber}">
+
+      <div class="ep-grid">
+        <div class="ep-block">
+          <div class="block-label">
+            <span class="bl-dot" style="background:var(--red)"></span>
+            <span class="badge b-hook">Hook (First 3 sec)</span>
+          </div>
+          <div class="block-text">${ep.hook}</div>
+        </div>
+        <div class="ep-block">
+          <div class="block-label">
+            <span class="bl-dot" style="background:var(--green)"></span>
+            <span class="badge b-cta">Ending Cliffhanger</span>
+          </div>
+          <div class="block-text">${ep.endingTeaser}</div>
+        </div>
+      </div>
+
+      <div class="ep-block-full">
+        <div class="block-label">
+          <span class="bl-dot" style="background:var(--purple)"></span>
+          <span class="badge b-story">Full Reel Narration (Script)</span>
+        </div>
+        <div class="narration-text" id="narr-${ep.episodeNumber}">${ep.narration}</div>
+        <button class="copy-btn" onclick="copyEl('narr-${ep.episodeNumber}', this)">📋 Copy Script</button>
+      </div>
+
+      <div class="ep-grid">
+        <div class="ep-block">
+          <div class="block-label">
+            <span class="bl-dot" style="background:var(--blue)"></span>
+            <span class="badge b-visual">Scene-by-Scene Visuals</span>
+          </div>
+          ${ep.visualIdeas.map((v, i) => `<div class="visual-scene"><span class="scene-n">S${i+1}</span><span>${v}</span></div>`).join('')}
+        </div>
+        <div class="ep-block">
+          <div class="block-label">
+            <span class="bl-dot" style="background:var(--amber)"></span>
+            <span class="badge b-cap">Instagram Caption</span>
+          </div>
+          <div class="block-text" style="margin-bottom:10px">${ep.caption}</div>
+          <div class="hashtag-text">${ep.hashtags}</div>
+        </div>
+      </div>
+
+      <div class="ep-block" style="margin-top:14px; display:flex; align-items:center; gap:14px; flex-wrap:wrap">
+        <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-dim)">Thumbnail</span>
+        <span class="thumb-text">${ep.thumbnailText}</span>
+        <button class="copy-btn" style="margin-top:0;margin-left:auto" onclick="copyText('${ep.thumbnailText}', this)">📋 Copy</button>
+      </div>
+
+    </div>
+  </div>`;
+}
+
+function toggleCard(num) {
+  const body = document.getElementById('body-' + num);
+  const chev = document.getElementById('chev-' + num);
+  const open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+
+function copyEl(id, btn) {
+  const txt = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(txt).then(() => {
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy Script', 1800);
+  });
+}
+function copyText(txt, btn) {
+  navigator.clipboard.writeText(txt).then(() => {
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy', 1800);
+  });
+}
+
+function exportAllScripts() {
+  const cards = document.querySelectorAll('.narration-text');
+  if (!cards.length) return;
+  let out = 'DEVOPS KATHALU — EPISODE SCRIPTS\n' + '='.repeat(50) + '\n\n';
+  cards.forEach(c => { out += c.innerText + '\n\n' + '-'.repeat(40) + '\n\n'; });
+  const blob = new Blob([out], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'devops_kathalu_scripts.txt';
+  a.click();
+}
+
+// ── MAIN GENERATOR ──
+let generatedEpisodes = [];
+
+async function generateEpisodes() {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!apiKey || !apiKey.startsWith('sk-')) {
+    alert('Please enter a valid Anthropic API key (starts with sk-ant- or sk-)');
+    return;
+  }
+
+  const startEp  = parseInt(document.getElementById('startEp').value);
+  const count    = parseInt(document.getElementById('epCount').value);
+  const world    = document.getElementById('storyWorld').value;
+  const btn      = document.getElementById('genBtn');
+  const empty    = document.getElementById('emptyState');
+  const container = document.getElementById('episodesContainer');
+
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+  empty.style.display = 'none';
+
+  const sysPrompt = buildSystemPrompt();
+  const newEps = [];
+
+  for (let i = 0; i < count; i++) {
+    const epNum = startEp + i;
+    const cmdData = ROADMAP.find(r => r.ep === epNum) || { cmd: 'echo + env' };
+
+    // Show progress card
+    const progId = `prog-${epNum}`;
+    const pct = Math.round((i / count) * 100);
+    container.innerHTML = newEps.map(renderEpisode).join('') + `
+    <div class="progress-bar-wrap" id="${progId}">
+      <div class="progress-title">Writing Episode ${epNum}...</div>
+      <div class="progress-sub">Command: ${cmdData.cmd}</div>
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+      <div class="dots"><span></span><span></span><span></span></div>
+    </div>`;
+
+    try {
+      const ep = await callClaude(apiKey, sysPrompt, buildUserPrompt(epNum, cmdData.cmd, world));
+      ep.episodeNumber = epNum;
+      ep.command = ep.command || cmdData.cmd;
+      newEps.push(ep);
+      generatedEpisodes.push(ep);
+    } catch(err) {
+      container.innerHTML = newEps.map(renderEpisode).join('') + `
+      <div class="error-box">
+        ❌ Episode ${epNum} failed: ${err.message}<br><br>
+        <strong>Common fixes:</strong><br>
+        • Check your API key is correct<br>
+        • Make sure you have credits at console.anthropic.com<br>
+        • Try generating fewer episodes at once
+      </div>`;
+      break;
+    }
+
+    renderRoadmap();
+  }
+
+  // Final render
+  container.innerHTML = (generatedEpisodes.length ? `
+    <div class="export-bar">
+      <button class="export-btn" onclick="exportAllScripts()">⬇ Export All Scripts (.txt)</button>
+      <span style="font-size:12px;color:var(--text-dim);align-self:center">${generatedEpisodes.length} episode(s) generated this session</span>
+    </div>` : '') + generatedEpisodes.map(renderEpisode).join('');
+
+  btn.disabled = false;
+  btn.textContent = '🎬 Generate More Episodes';
+  renderRoadmap();
+}
+</script>
+</body>
+</html>
